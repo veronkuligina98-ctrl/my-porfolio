@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Портфолио — Таргет & Project Management</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0c0c14;
+    --bg2: #13131f;
+    --bg3: #1a1a2e;
+    --card: #16162a;
+    --card2: #1e1e35;
+    --border: rgba(255,255,255,0.07);
+    --text: #f0f0f5;
+    --muted: #888899;
+    --accent: #7c5cbf;
+    --accent2: #a855f7;
+    --accent3: #60a5fa;
+    --green: #34d399;
+    --gold: #f59e0b;
+    --rose: #f43f5e;
+    --radius: 16px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; line-height: 1.6; }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,92,191,0.25) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 80% 80%, rgba(96,165,250,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(124,92,191,0.15);
+    border: 1px solid rgba(124,92,191,0.3);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 13px;
+    color: var(--accent2);
+    letter-spacing: 0.05em;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #fff 0%, rgba(168,139,250,0.9) 50%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+  }
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--muted);
+    max-width: 580px;
+    margin-bottom: 40px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 56px;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat-num {
+    display: block;
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent2), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .scroll-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  .scroll-hint svg { opacity: 0.4; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+  /* ─── NAV ─── */
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(12,12,20,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    gap: 16px;
+    overflow-x: auto;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-logo { font-size: 13px; font-weight: 700; color: var(--accent2); white-space: nowrap; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 4px; }
+  .nav-link {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+
+  /* ─── SECTION ─── */
+  .section-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 24px 40px;
+  }
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-size: clamp(24px, 4vw, 40px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  /* ─── CASE CARDS ─── */
+  .cases-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  /* ─── INDIVIDUAL CASE ─── */
+  .case {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.2s;
+    margin-bottom: 24px;
+  }
+  .case:hover { border-color: rgba(124,92,191,0.3); }
+
+  .case-header {
+    padding: 32px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .case-header-left { flex: 1; }
+  .case-num {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--accent2);
+    opacity: 0.7;
+    margin-bottom: 8px;
+  }
+  .case-title {
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .case-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    background: rgba(255,255,255,0.05);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .tag.type-target { background: rgba(168,85,247,0.1); color: #c084fc; border-color: rgba(168,85,247,0.2); }
+  .tag.type-pm { background: rgba(96,165,250,0.1); color: #93c5fd; border-color: rgba(96,165,250,0.2); }
+  .tag.type-anon { background: rgba(255,255,255,0.05); color: var(--muted); }
+
+  .case-peak-metric {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .case-peak-num {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--green), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .case-peak-label { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  .case-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .case-toggle svg {
+    transition: transform 0.3s ease;
+  }
+  .case.open .case-toggle svg { transform: rotate(180deg); }
+  .case.open .case-toggle { background: rgba(124,92,191,0.2); border-color: rgba(124,92,191,0.4); }
+
+  .case-body {
+    display: none;
+    padding: 0 40px 40px;
+    border-top: 1px solid var(--border);
+    animation: fadeIn 0.3s ease;
+  }
+  .case.open .case-body { display: block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ─── METRICS ─── */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    padding: 32px 0 24px;
+  }
+  .metric-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent3));
+    opacity: 0.6;
+  }
+  .metric-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .metric-value { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
+  .metric-value.green { color: var(--green); }
+  .metric-value.gold { color: var(--gold); }
+  .metric-value.purple { color: var(--accent2); }
+  .metric-value.blue { color: var(--accent3); }
+  .metric-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  /* ─── CONTENT BLOCKS ─── */
+  .case-blocks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 8px;
+  }
+  @media (max-width: 700px) { .case-blocks { grid-template-columns: 1fr; } }
+
+  .block {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .block-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .block-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .block ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .block ul li {
+    font-size: 14px;
+    color: #c5c5d5;
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .block ul li::before { content: '—'; position: absolute; left: 0; color: var(--accent2); opacity: 0.5; font-size: 12px; top: 1px; }
+  .block p { font-size: 14px; color: #c5c5d5; line-height: 1.7; }
+
+  /* ─── IMAGES ─── */
+  .case-images {
+    margin-top: 24px;
+  }
+  .images-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .images-grid img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .images-grid img:hover { transform: scale(1.02); border-color: rgba(124,92,191,0.4); }
+
+  /* ─── LINK ─── */
+  .case-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 10px 20px;
+    background: rgba(124,92,191,0.12);
+    border: 1px solid rgba(124,92,191,0.25);
+    border-radius: 8px;
+    color: var(--accent2);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .case-link:hover { background: rgba(124,92,191,0.22); border-color: rgba(124,92,191,0.5); }
+
+  /* ─── LIGHTBOX ─── */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 8px; }
+  .lightbox-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    color: #fff;
+  }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 24px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 32px 0;
+  }
+
+  /* responsive */
+  @media (max-width: 768px) {
+    .case-header { flex-direction: column; gap: 16px; padding: 24px; }
+    .case-body { padding: 0 24px 32px; }
+    .case-peak-metric { text-align: left; }
+    .metrics-row { grid-template-columns: repeat(2, 1fr); }
+    .hero-stats { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-tag">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="6" cy="6" r="2" fill="currentColor"/></svg>
+    Таргетолог · Project Manager · Meta Ads
+  </div>
+  <h1>Портфолио кейсов</h1>
+  <p class="hero-sub">11 проектов — от локального бизнеса в Европе до масштабных запусков онлайн-школ на зарубежную аудиторию</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-num">11</span>
+      <span class="hero-stat-label">Кейсов</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">615%</span>
+      <span class="hero-stat-label">Макс. ROMI</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">4+</span>
+      <span class="hero-stat-label">Года опыта</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">7</span>
+      <span class="hero-stat-label">Стран</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Кейсы ниже</span>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+</section>
+
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <div class="nav-inner">
+    <span class="nav-logo">Портфолио</span>
+    <div class="nav-links">
+      <a class="nav-link" href="#case1">Таргет КЗ</a>
+      <a class="nav-link" href="#case2">Инвестиции</a>
+      <a class="nav-link" href="#case3">Qool.pro</a>
+      <a class="nav-link" href="#case4">Перманент</a>
+      <a class="nav-link" href="#case5">Турагент</a>
+      <a class="nav-link" href="#case6">WB</a>
+      <a class="nav-link" href="#case7">Кондитер</a>
+      <a class="nav-link" href="#case8">Афнан</a>
+      <a class="nav-link" href="#case9">Суши PL</a>
+      <a class="nav-link" href="#case10">Неон PL</a>
+      <a class="nav-link" href="#case11">Автошкола PL</a>
+    </div>
+  </div>
+</nav>
+
+<!-- CASES -->
+<div class="section-header">
+  <div class="section-eyebrow">Все работы</div>
+  <h2 class="section-title">Кейсы и проекты</h2>
+</div>
+
+<div class="cases-grid">
+
+  <!-- ────────────────────────────── CASE 1 ─── -->
+  <div class="case open" id="case1">
+    <div class="case-header" onclick="toggleCase(this)">
+      <div class="case-header-left">
+        <div class="case-num">01 / ТАРГЕТ</div>
+        <div class="case-title">Школа по таргету — Казахстан</div>
+        <div class="case-tags">
+          <span class="tag type-target">🎯 Meta Ads</span>
+          <span class="tag">📍 КЗ / СНГ / Европа</span>
+          <span class="tag">⏱ 7 месяцев</span>
+          <span class="tag type-anon">🔒 НДА</span>
+        </div>
+      </div>
+      <div class="case-peak-metric">
+        <div class="case-peak-num">$2K</div>
+        <div class="case-peak-label">/ день бюджет</div>
+      </div>
+      <div class="case-toggle">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="case-body">
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">Длительность</div>
+          <div class="metric-value purple">7 мес</div>
+          <div class="metric-sub">2022</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Макс. бюджет</div>
+          <div class="metric-value gold">$1–2K</div>
+          <div class="metric-sub">в сутки</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Частота запусков</div>
+          <div class="metric-value blue">3×</div>
+          <div class="metric-sub">марафона в месяц</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Масштаб</div>
+          <div class="metric-value green">$10K+</div>
+          <div class="metric-sub">/ мес бюджет</div>
+        </div>
+      </div>
+      <div class="case-blocks">
+        <div class="block">
+          <div class="block-title">Стратегия</div>
+          <ul>
+            <li>Глубокий анализ ЦА перед запуском — не запускали пока не поняли продукт</li>
+            <li>Большое кол-во тестов: статика + видео + разговорники с экспертом</li>
+            <li>Лучшие аудитории: широкая + нестандартные интересы + LAL</li>
+            <li>Масштабирование с предельной ценой за результат — цена лида оставалась стабильной даже при росте бюджета до $1–2К в сутки</li>
+            <li>Работа с блокировками на арендных кабинетах</li>
+            <li>Постоянный мониторинг KPI в реальном времени — корректировка стратегии без задержек</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Контекст</div>
+          <ul>
+            <li>Онлайн-школа по таргетированной рекламе</li>
+            <li>Гео: Казахстан + СНГ + частично Европа</li>
+            <li>Цель: трафик на регулярные марафоны (3 раза в месяц по 5–7 дней)</li>
+            <li>Один из первых крупных проектов с бюджетом выше $10К/мес</li>
+            <li>Продажи под НДА</li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-images">
+        <div class="images-label">Материалы</div>
+        <div class="images-grid">
+          <img src="бустаев_-_таргет/Снимок экрана 2026-06-14 в 21.52.55.png" alt="Скриншот 1" onclick="openLightbox(this.src)">
+          <img src="бустаев_-_таргет/Снимок экрана 2026-06-14 в 21.53.15.png" alt="Скриншот 2" onclick="openLightbox(this.src)">
+          <img src="бустаев_-_таргет/Снимок экрана 2026-06-14 в 21.53.29.png" alt="Скриншот 3" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+      <a class="case-link" href="https://www.instagram.com/bustaew" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @bustaew
+      </a>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────── CASE 2 ─── -->
+  <div class="case" id="case2">
+    <div class="case-header" onclick="toggleCase(this)">
+      <div class="case-header-left">
+        <div class="case-num">02 / ТАРГЕТ</div>
+        <div class="case-title">Онлайн-школа по инвестициям</div>
+        <div class="case-tags">
+          <span class="tag type-target">🎯 Meta Ads</span>
+          <span class="tag">📍 Европа / КЗ / РБ</span>
+          <span class="tag">⏱ 10 месяцев</span>
+          <span class="tag type-anon">🔒 Анонимно</span>
+        </div>
+      </div>
+      <div class="case-peak-metric">
+        <div class="case-peak-num">2+ г</div>
+        <div class="case-peak-label">общей работы</div>
+      </div>
+      <div class="case-toggle">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="case-body">
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">Длительность</div>
+          <div class="metric-value purple">10 мес</div>
+          <div class="metric-sub">+ 2+ года общей работы</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Форматы воронок</div>
+          <div class="metric-value blue">5+</div>
+          <div class="metric-sub">автовеб, марафоны, боты, клубы</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Лучшие гео</div>
+          <div class="metric-value gold">EU + KZ</div>
+          <div class="metric-sub">Европа, Беларусь</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Ниша</div>
+          <div class="metric-value green">Сложная</div>
+          <div class="metric-sub">долгое решение</div>
+        </div>
+      </div>
+      <div class="case-blocks">
+        <div class="block">
+          <div class="block-title">Стратегия</div>
+          <ul>
+            <li>Продукт на русском языке — аудитория русскоязычные за рубежом</li>
+            <li>В долгую НЕ работает статика — только видео (эксперты, расчёты, графики)</li>
+            <li>Есть креативы которые работали годами без выгорания</li>
+            <li>Форматы: автовебинары, марафоны, маленькие продукты → большие, боты, подписки, клубы</li>
+            <li>Анализ каждые 3–4 дня, честный отсев нерабочих связок</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Особенности ниши</div>
+          <ul>
+            <li>Онлайн-школа по инвестициям — сложная ниша с долгим принятием решения</li>
+            <li>Нельзя продавать агрессивно — только через доверие</li>
+            <li>Реклама строилась на экспертности: расчёты, графики, реальные цифры</li>
+            <li>Лучшие гео по окупаемости: Европа + Казахстан + Беларусь</li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-images">
+        <div class="images-label">Материалы</div>
+        <div class="images-grid">
+          <img src="территория_фин_роста/Снимок экрана 2026-06-14 в 21.54.49.png" alt="Скриншот 1" onclick="openLightbox(this.src)">
+          <img src="территория_фин_роста/Снимок экрана 2026-06-14 в 21.55.04.png" alt="Скриншот 2" onclick="openLightbox(this.src)">
+          <img src="территория_фин_роста/Снимок экрана 2026-06-14 в 21.55.22.png" alt="Скриншот 3" onclick="openLightbox(this.src)">
+          <img src="территория_фин_роста/Снимок экрана 2026-06-14 в 21.55.36.png" alt="Скриншот 4" onclick="openLightbox(this.src)">
+          <img src="территория_фин_роста/Снимок экрана 2026-06-14 в 21.56.58.png" alt="Скриншот 5" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+      <a class="case-link" href="https://www.instagram.com/ten.a.v" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @ten.a.v
+      </a>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────── CASE 3 ─── -->
+  <div class="case" id="case3">
+    <div class="case-header" onclick="toggleCase(this)">
+      <div class="case-header-left">
+        <div class="case-num">03 / ТАРГЕТ</div>
+        <div class="case-title">Qool.pro — Онлайн-курсы для девушек</div>
+        <div class="case-tags">
+          <span class="tag type-target">🎯 Meta Ads</span>
+          <span class="tag">📍 Казахстан</span>
+          <span class="tag">⏱ 3 недели</span>
+          <span class="tag">📅 Август 2024</span>
+        </div>
+      </div>
+      <div class="case-peak-metric">
+        <div class="case-peak-num">223%</div>
+        <div class="case-peak-label">ROMI</div>
+      </div>
+      <div class="case-toggle">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="case-body">
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">ROMI</div>
+          <div class="metric-value green">223%</div>
+          <div class="metric-sub">лучшая связка 418%</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Выручка</div>
+          <div class="metric-value gold">$42 000</div>
+          <div class="metric-sub">за 3 недели</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Рекламный бюджет</div>
+          <div class="metric-value purple">$13 000</div>
+          <div class="metric-sub">все кампании</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Прибыль сверх расхода</div>
+          <div class="metric-value green">+$29 000</div>
+          <div class="metric-sub"></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Регистраций</div>
+          <div class="metric-value blue">4 736</div>
+          <div class="metric-sub">на 3 вебинара</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Пик клиента</div>
+          <div class="metric-value gold">70 млн ₽</div>
+          <div class="metric-sub">vs 40 млн до</div>
+        </div>
+      </div>
+      <div class="case-blocks">
+        <div class="block">
+          <div class="block-title">Стратегия</div>
+          <ul>
+            <li>Под каждый из 3 вебинаров — отдельные смыслы и визуал</li>
+            <li>Оптимизация по выручке, а не по цене лида</li>
+            <li>За первую неделю нашли рабочие связки и начали масштабировать</li>
+            <li>Аудитории: KZ 25+ женщины, широкая + по интересам AVWB</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Лучшие результаты</div>
+          <ul>
+            <li>Лучшее объявление d7: <strong style="color:var(--green)">$0.32/лид 🔥</strong></li>
+            <li>Лучшее объявление d8: <strong style="color:var(--green)">$0.46/лид 🔥</strong></li>
+            <li>239 заявок на абонемент → конвертировались в $42 000</li>
+            <li>Рост выручки клиента: с 40 млн до 70 млн руб в месяц</li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-images">
+        <div class="images-label">Материалы</div>
+        <div class="images-grid">
+          <img src="qoolpro-таргет/Снимок экрана 2026-06-14 в 21.58.00.png" alt="Скриншот 1" onclick="openLightbox(this.src)">
+          <img src="qoolpro-таргет/Снимок экрана 2026-06-14 в 21.58.20.png" alt="Скриншот 2" onclick="openLightbox(this.src)">
+          <img src="qoolpro-таргет/Снимок экрана 2026-06-14 в 21.58.33.png" alt="Скриншот 3" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+      <a class="case-link" href="https://www.instagram.com/qool.pro" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @qool.pro
+      </a>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────── CASE 4 ─── -->
+  <div class="case" id="case4">
+    <div class="case-header" onclick="toggleCase(this)">
+      <div class="case-header-left">
+        <div class="case-num">04 / ТАРГЕТ</div>
+        <div class="case-title">Brows Permanent Milano — Перманентный макияж, Италия</div>
+        <div class="case-tags">
+          <span class="tag type-target">🎯 Instagram + Facebook</span>
+          <span class="tag">📍 Милан, Италия</span>
+          <span class="tag">⏱ 6 месяцев</span>
+          <span class="tag">💄 Перманентный макияж</span>
+        </div>
+      </div>
+      <div class="case-peak-metric">
+        <div class="case-peak-num">615%</div>
+        <div class="case-peak-label">ROMI</div>
+      </div>
+      <div class="case-toggle">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="case-body">
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">ROMI</div>
+          <div class="metric-value green">615%</div>
+          <div class="metric-sub">Выручка / расход × 100%</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">ROAS</div>
+          <div class="metric-value gold">7.1x</div>
+          <div class="metric-sub">На €1 → €7.1 выручки</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Факт. выручка</div>
+          <div class="metric-value green">25 990€</div>
+          <div class="metric-sub">Услуги + обучение</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Рекламный бюджет</div>
+          <div class="metric-value purple">3 636€</div>
+          <div class="metric-sub">Все кампании за 6 мес.</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Лидов в Директ</div>
+          <div class="metric-value blue">340+</div>
+          <div class="metric-sub">Instagram Direct</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Прибыль сверх расхода</div>
+          <div class="metric-value green">+22 354€</div>
+          <div class="metric-sub"></div>
+        </div>
+      </div>
+
+      <div class="block" style="margin-top:0">
+        <div class="block-title">Структура выручки</div>
+        <div style="display:flex;gap:24px;flex-wrap:wrap;">
+          <div>
+            <div style="font-size:12px;color:var(--muted);margin-bottom:4px">💄 Услуги (процедуры + коррекция)</div>
+            <div style="font-size:22px;font-weight:700;color:var(--text)">20 990€</div>
+            <div style="font-size:12px;color:var(--muted)">Брови, губы, удаление, ежегодная коррекция</div>
+          </div>
+          <div>
+            <div style="font-size:12px;color:var(--muted);margin-bottom:4px">🎓 Обучение / Курсы</div>
+            <div style="font-size:22px;font-weight:700;color:var(--text)">5 000€</div>
+            <div style="font-size:12px;color:var(--muted)">Курс губы (1 400€) + обучение бровям ×3 (1 200€ каждый)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-blocks" style="margin-top:16px">
+        <div class="block">
+          <div class="block-title">Топ недель по выручке</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px solid var(--border)">
+              <span style="font-size:13px;color:var(--muted)">28.04 – 09.05</span>
+              <span style="font-size:15px;font-weight:700;color:var(--green)">3 150€</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px solid var(--border)">
+              <span style="font-size:13px;color:var(--muted)">29.03 – 04.04</span>
+              <span style="font-size:15px;font-weight:700;color:var(--green)">2 750€</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px solid var(--border)">
+              <span style="font-size:13px;color:var(--muted)">27.12 – 10.01</span>
+              <span style="font-size:15px;font-weight:700;color:var(--green)">2 520€</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px solid var(--border)">
+              <span style="font-size:13px;color:var(--muted)">16.03 – 21.03</span>
+              <span style="font-size:15px;font-weight:700;color:var(--gold)">2 040€</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px solid var(--border)">
+              <span style="font-size:13px;color:var(--muted)">22.03 – 28.03</span>
+              <span style="font-size:15px;font-weight:700;color:var(--gold)">1 250€ + курс</span>
+            </div>
+          </div>
+        </div>
+        <div class="block">
+          <div class="block-title">Стратегия</div>
+          <ul>
+            <li>Локальный бизнес в Европе — мягкий подход без агрессии</li>
+            <li>Ставка на визуал, процесс и доверие — Instagram сам догревал до записи</li>
+            <li>Лучшие форматы: процесс работы, макро, до/после, коллажи</li>
+            <li>Трафик в Instagram + аккуратная работа с ретаргетом</li>
+            <li>Не СНГ аудитория — локальная итальянская</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="case-images">
+        <div class="images-label">Лучшие креативы</div>
+        <div class="images-grid">
+          <img src="перманентный_макияж_-таргет/2026-06-09 21.47.30.jpg" alt="Креатив 1" onclick="openLightbox(this.src)">
+          <img src="перманентный_макияж_-таргет/2026-06-09 21.47.46.jpg" alt="Креатив 2" onclick="openLightbox(this.src)">
+          <img src="перманентный_макияж_-таргет/2026-06-09 21.48.01.jpg" alt="Креатив 3" onclick="openLightbox(this.src)">
+          <img src="перманентный_макияж_-таргет/2026-06-09 21.48.10.jpg" alt="Креатив 4" onclick="openLightbox(this.src)">
+          <img src="перманентный_макияж_-таргет/2026-06-09 21.49.15.jpg" alt="Креатив 5" onclick="openLightbox(this.src)">
+          <img src="перманентный_макияж_-таргет/2026-06-09 21.49.23.jpg" alt="Креатив 6" onclick="openLightbox(this.src)">
+          <img src="перманентный_макияж_-таргет/2026-06-09 21.49.35.jpg" alt="Креатив 7" onclick="openLightbox(this.src)">
+          <img src="перманентный_макияж_-таргет/2026-06-09 21.50.15.jpg" alt="Креатив 8" onclick="openLightbox(this.src)">
+          <img src="перманентный_макияж_-таргет/2026-06-09 21.50.26.jpg" alt="Креатив 9" onclick="openLightbox(this.src)">
+          <img src="перманентный_макияж_-таргет/2026-06-09 22.12.42.jpg" alt="Статистика" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+      <a class="case-link" href="https://www.instagram.com/brows.permanent.milano" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @brows.permanent.milano
+      </a>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────── CASE 5 ─── -->
+  <div class="case" id="case5">
+    <div class="case-header" onclick="toggleCase(this)">
+      <div class="case-header-left">
+        <div class="case-num">05 / PROJECT MANAGER</div>
+        <div class="case-title">Work in Travel — Школа турагентов</div>
+        <div class="case-tags">
+          <span class="tag type-pm">📋 Project Manager</span>
+          <span class="tag">📍 СНГ / Европа / Азия / США</span>
+          <span class="tag">👩 Женщины 25–50</span>
+          <span class="tag">📱 Meta Ads</span>
+        </div>
+      </div>
+      <div class="case-peak-metric">
+        <div class="case-peak-num">69 990₽</div>
+        <div class="case-peak-label">топ-продукт</div>
+      </div>
+      <div class="case-toggle">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="case-body">
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">Воронка</div>
+          <div class="metric-value blue">3 дня</div>
+          <div class="metric-sub">живых эфиров пн–ср</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Продукт</div>
+          <div class="metric-value gold">29 990₽</div>
+          <div class="metric-sub">или 69 990₽ курс</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Сегменты ЦА</div>
+          <div class="metric-value purple">4</div>
+          <div class="metric-sub">отдельных захода</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Лучшие гео</div>
+          <div class="metric-value green">BY / KZ</div>
+          <div class="metric-sub">+ Турция, Молдова</div>
+        </div>
+      </div>
+      <div class="case-blocks">
+        <div class="block">
+          <div class="block-title">Путь клиента</div>
+          <ul>
+            <li>Реклама → лендинг → бесплатная регистрация</li>
+            <li>Прогрев → 3 дня живых эфиров (пн–ср)</li>
+            <li>Продажа курса турагента (29 990 или 69 990 ₽)</li>
+            <li>Ключевой момент: доходимость на живой курс = конверсия в покупку</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Сегменты ЦА</div>
+          <ul>
+            <li>Мамы в декрете — хотят доход не выходя из дома</li>
+            <li>Экспаты и релоканты — уже живут в туристических местах</li>
+            <li>Женщины 40+ — пугает маленькая пенсия</li>
+            <li>Выгоревшие в найме — ненавидят график 5/2</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Форматы и стратегия</div>
+          <ul>
+            <li>Под каждый сегмент — отдельный заход, не абстрактные «женщины с интересом к путешествиям»</li>
+            <li>Каждая женщина в рекламе видела свою конкретную боль</li>
+            <li>Лучший формат: видеокреативы от актёров, живые истории от первого лица</li>
+            <li>Смыслы вытаскивали из переписок и звонков отдела продаж</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Смыслы</div>
+          <ul>
+            <li>Путешествия как работа</li>
+            <li>Монетизация жизни</li>
+            <li>Лёгкий старт без опыта</li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-images">
+        <div class="images-label">Материалы</div>
+        <div class="images-grid">
+          <img src="турагент-_проджект/2026-06-14 22.17.58.jpg" alt="Фото 1" onclick="openLightbox(this.src)">
+          <img src="турагент-_проджект/2026-06-14 22.18.03.jpg" alt="Фото 2" onclick="openLightbox(this.src)">
+          <img src="турагент-_проджект/2026-06-14 22.18.08.jpg" alt="Фото 3" onclick="openLightbox(this.src)">
+          <img src="турагент-_проджект/liya12.JPG" alt="Фото 4" onclick="openLightbox(this.src)">
+          <img src="турагент-_проджект/Снимок экрана 2026-06-14 в 22.08.34.png" alt="Скриншот 1" onclick="openLightbox(this.src)">
+          <img src="турагент-_проджект/Снимок экрана 2026-06-14 в 22.11.34.png" alt="Скриншот 2" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+      <a class="case-link" href="https://web.workintravel.ru/free_course_tr" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+        web.workintravel.ru
+      </a>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────── CASE 6 ─── -->
+  <div class="case" id="case6">
+    <div class="case-header" onclick="toggleCase(this)">
+      <div class="case-header-left">
+        <div class="case-num">06 / PROJECT MANAGER</div>
+        <div class="case-title">WB Manager — Менеджер маркетплейсов</div>
+        <div class="case-tags">
+          <span class="tag type-pm">📋 Project Manager</span>
+          <span class="tag">📍 BY / KZ / UZ / MD</span>
+          <span class="tag">⏱ 1+ год</span>
+          <span class="tag">📱 Meta + TikTok + YouTube</span>
+        </div>
+      </div>
+      <div class="case-peak-metric">
+        <div class="case-peak-num">300%</div>
+        <div class="case-peak-label">ROMI на старте</div>
+      </div>
+      <div class="case-toggle">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="case-body">
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">ROMI на Meta</div>
+          <div class="metric-value green">300%</div>
+          <div class="metric-sub">до масштаба</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Платформы</div>
+          <div class="metric-value blue">3</div>
+          <div class="metric-sub">Meta + TikTok + YouTube</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Длительность</div>
+          <div class="metric-value purple">1+ год</div>
+          <div class="metric-sub"></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">ЦА</div>
+          <div class="metric-value gold">30–50</div>
+          <div class="metric-sub">женщины</div>
+        </div>
+      </div>
+      <div class="case-blocks">
+        <div class="block">
+          <div class="block-title">Путь клиента</div>
+          <ul>
+            <li>Реклама → лендинг → регистрация → WhatsApp</li>
+            <li>3 дня живого мини-курса (пн–ср) → продажа</li>
+            <li>Бюджет масштабируется в выходные — кол-во зрителей в пн = выручка трёхдневника</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Мультиканальность</div>
+          <ul>
+            <li>Стартовали только с Meta, вывели на окупаемость 300% — потом TikTok и YouTube</li>
+            <li>НЕ переносили креативы между платформами — TikTok/YouTube банят за прямой перенос</li>
+            <li>Брали смыслы лучших креативов Meta, полностью переписывали под нормы каждой платформы</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Аналитика</div>
+          <ul>
+            <li>Ежедневные выгрузки по оплатам с метками по каждому креативу</li>
+            <li>Еженедельный контроль доходимости на мини-курс</li>
+            <li>Ежемесячный разбор — что принесло больше всего денег</li>
+            <li>Дешёвая регистрация ≠ деньги в кассе — отслеживали всю воронку целиком</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Лучшие связки</div>
+          <ul>
+            <li>Лучший сегмент: женщины 30–50 которым надоел офис и наёмная работа</li>
+            <li>Смыслы на старте: свобода от офиса, доход от $1 700, практика с первого дня</li>
+            <li>Лучший формат: живые видео от эксперта, без пафоса, с реальными цифрами</li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-images">
+        <div class="images-label">Материалы</div>
+        <div class="images-grid">
+          <img src="вайлдберис_-_проджект/dana1.jpg" alt="Фото 1" onclick="openLightbox(this.src)">
+          <img src="вайлдберис_-_проджект/2026-06-14 22.14.10.jpg" alt="Фото 2" onclick="openLightbox(this.src)">
+          <img src="вайлдберис_-_проджект/2026-06-14 22.14.14.jpg" alt="Фото 3" onclick="openLightbox(this.src)">
+          <img src="вайлдберис_-_проджект/Frame 1080.jpg" alt="Фото 4" onclick="openLightbox(this.src)">
+          <img src="вайлдберис_-_проджект/Снимок экрана 2026-06-14 в 21.48.51.png" alt="Скриншот 1" onclick="openLightbox(this.src)">
+          <img src="вайлдберис_-_проджект/Снимок экрана 2026-06-14 в 21.49.42.png" alt="Скриншот 2" onclick="openLightbox(this.src)">
+          <img src="вайлдберис_-_проджект/Снимок экрана 2026-06-14 в 22.15.26.png" alt="Скриншот 3" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+      <a class="case-link" href="https://www.instagram.com/malkina.dana" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @malkina.dana
+      </a>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────── CASE 7 ─── -->
+  <div class="case" id="case7">
+    <div class="case-header" onclick="toggleCase(this)">
+      <div class="case-header-left">
+        <div class="case-num">07 / PROJECT MANAGER</div>
+        <div class="case-title">Кондитерские курсы — Онлайн-школа</div>
+        <div class="case-tags">
+          <span class="tag type-pm">📋 Project Manager</span>
+          <span class="tag">📍 Европа / США / Канада</span>
+          <span class="tag">⏱ 2.5 года · 17 воронок</span>
+          <span class="tag">📱 Meta Ads</span>
+        </div>
+      </div>
+      <div class="case-peak-metric">
+        <div class="case-peak-num">17</div>
+        <div class="case-peak-label">воронок запущено</div>
+      </div>
+      <div class="case-toggle">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="case-body">
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">Длительность</div>
+          <div class="metric-value purple">2.5 года</div>
+          <div class="metric-sub">июль 2023 – февраль 2026</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Воронок</div>
+          <div class="metric-value blue">17</div>
+          <div class="metric-sub">запущено за период</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Лучшее гео</div>
+          <div class="metric-value green">Европа</div>
+          <div class="metric-sub">стабильная окупаемость</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Также</div>
+          <div class="metric-value gold">USA + CA</div>
+          <div class="metric-sub">платёжеспособная аудитория</div>
+        </div>
+      </div>
+      <div class="case-blocks">
+        <div class="block">
+          <div class="block-title">Ключевые инсайты за 2.5 года</div>
+          <ul>
+            <li>В нише хобби/домашний бизнес аудитория по интересам работает лучше широкой</li>
+            <li>Лучшие интересы: домашний бизнес, хобби, самозанятость + кондитерство</li>
+            <li>Знали какие сегменты горят в январе, какие воронки оживают весной</li>
+            <li>Долгосрочное знание об аудитории невозможно получить за один запуск</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Форматы по продуктам</div>
+          <ul>
+            <li><strong style="color:var(--accent2)">Зефирные цветы</strong> (визуально сильный): сторителлинг от эксперта с показом процесса</li>
+            <li><strong style="color:var(--accent2)">Макарон</strong>: динамические креативы + статика с ярким оффером + простые видео с музыкой</li>
+            <li><strong style="color:var(--accent2)">Универсально</strong>: эксперт лично приглашает на мастер-класс</li>
+            <li>Качественный контент от клиента — ключевой фактор для всех воронок</li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-images">
+        <div class="images-label">Материалы</div>
+        <div class="images-grid">
+          <img src="Кондитерские_курсы_кейко_-_проджект/Снимок экрана 2026-06-14 в 21.17.01.png" alt="Скриншот 1" onclick="openLightbox(this.src)">
+          <img src="Кондитерские_курсы_кейко_-_проджект/Снимок экрана 2026-06-14 в 21.17.19.png" alt="Скриншот 2" onclick="openLightbox(this.src)">
+          <img src="Кондитерские_курсы_кейко_-_проджект/Снимок экрана 2026-06-14 в 22.05.05.png" alt="Скриншот 3" onclick="openLightbox(this.src)">
+          <img src="Кондитерские_курсы_кейко_-_проджект/Снимок экрана 2026-06-14 в 22.06.39.png" alt="Скриншот 4" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+      <a class="case-link" href="https://www.instagram.com/pauline_cake" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @pauline_cake
+      </a>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────── CASE 8 ─── -->
+  <div class="case" id="case8">
+    <div class="case-header" onclick="toggleCase(this)">
+      <div class="case-header-left">
+        <div class="case-num">08 / PROJECT MANAGER</div>
+        <div class="case-title">Афнан — Обучение запускам на зарубеж</div>
+        <div class="case-tags">
+          <span class="tag type-pm">📋 Project Manager</span>
+          <span class="tag">📍 США / Канада / Европа (tier-1)</span>
+          <span class="tag">🌐 Английский язык</span>
+          <span class="tag">📱 Multi-channel</span>
+        </div>
+      </div>
+      <div class="case-peak-metric">
+        <div class="case-peak-num">10</div>
+        <div class="case-peak-label">касаний в 3 каналах</div>
+      </div>
+      <div class="case-toggle">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="case-body">
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">Гео</div>
+          <div class="metric-value gold">Tier-1</div>
+          <div class="metric-sub">США, Канада, Европа</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Система касаний</div>
+          <div class="metric-value blue">10</div>
+          <div class="metric-sub">в 3 каналах параллельно</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Квалификация</div>
+          <div class="metric-value purple">2 типа ЦА</div>
+          <div class="metric-sub">блогер vs продюсер</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Язык</div>
+          <div class="metric-value green">ENG</div>
+          <div class="metric-sub">английский</div>
+        </div>
+      </div>
+      <div class="case-blocks">
+        <div class="block">
+          <div class="block-title">Воронка</div>
+          <ul>
+            <li>Регистрация на марафон → квалификация (форма-опросник)</li>
+            <li>Прогрев к покупке VIP-билета → цепочка контента в WhatsApp</li>
+            <li>Мероприятие → открытие продаж</li>
+            <li>10 касаний в 3 каналах параллельно — «весь интернет говорит об этом»</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Ключевое решение: квалификация</div>
+          <ul>
+            <li>После регистрации — короткая форма: опыт запусков, аудитория, цели</li>
+            <li>Блогер с аудиторией vs продюсер за кадром — разные боли и офферы</li>
+            <li>Менеджер берёт трубку уже зная кто перед ним</li>
+            <li>Квалификация позволяла корректировать трафик в моменте</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Трафик на каждом этапе</div>
+          <ul>
+            <li>Холодный трафик → регистрация</li>
+            <li>Ретаргет → ввод в WhatsApp для тех кто не зарегистрировался</li>
+            <li>Доходимость → каждый день марафона отдельные креативы</li>
+            <li>Дожим → после открытия продаж для тех кто поговорил с менеджером</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Лучшие форматы</div>
+          <ul>
+            <li>Видео от эксперта по нашим сценариям</li>
+            <li>Статика для ретаргета</li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-images">
+        <div class="images-label">Материалы</div>
+        <div class="images-grid">
+          <img src="_Трафик_зарубеж_(запуски)_афнан-_проджект/2026-03-16 17.00.07.jpg" alt="Фото 1" onclick="openLightbox(this.src)">
+          <img src="_Трафик_зарубеж_(запуски)_афнан-_проджект/2026-03-16 17.00.11.jpg" alt="Фото 2" onclick="openLightbox(this.src)">
+          <img src="_Трафик_зарубеж_(запуски)_афнан-_проджект/2026-03-16 17.04.08.jpg" alt="Фото 3" onclick="openLightbox(this.src)">
+          <img src="_Трафик_зарубеж_(запуски)_афнан-_проджект/2026-03-16 17.04.12.jpg" alt="Фото 4" onclick="openLightbox(this.src)">
+          <img src="_Трафик_зарубеж_(запуски)_афнан-_проджект/Instagram story - 30.jpg" alt="Story 1" onclick="openLightbox(this.src)">
+          <img src="_Трафик_зарубеж_(запуски)_афнан-_проджект/Instagram story - 31.jpg" alt="Story 2" onclick="openLightbox(this.src)">
+          <img src="_Трафик_зарубеж_(запуски)_афнан-_проджект/Снимок экрана 2026-06-14 в 21.33.41.png" alt="Скриншот 1" onclick="openLightbox(this.src)">
+          <img src="_Трафик_зарубеж_(запуски)_афнан-_проджект/Снимок экрана 2026-06-14 в 21.34.46.png" alt="Скриншот 2" onclick="openLightbox(this.src)">
+          <img src="_Трафик_зарубеж_(запуски)_афнан-_проджект/Снимок экрана 2026-06-14 в 21.38.41.png" alt="Скриншот 3" onclick="openLightbox(this.src)">
+          <img src="_Трафик_зарубеж_(запуски)_афнан-_проджект/Снимок экрана 2026-06-14 в 21.41.04.png" alt="Скриншот 4" onclick="openLightbox(this.src)">
+          <img src="_Трафик_зарубеж_(запуски)_афнан-_проджект/Снимок экрана 2026-06-14 в 21.42.40.png" alt="Скриншот 5" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+      <a class="case-link" href="https://www.instagram.com/theafnankhalifa" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @theafnankhalifa
+      </a>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────── CASE 9 ─── -->
+  <div class="case" id="case9">
+    <div class="case-header" onclick="toggleCase(this)">
+      <div class="case-header-left">
+        <div class="case-num">09 / PROJECT MANAGER</div>
+        <div class="case-title">Суши-доставка — 15 городов Польши</div>
+        <div class="case-tags">
+          <span class="tag type-pm">📋 Project Manager (BLAMMO)</span>
+          <span class="tag">📍 Польша · 15 городов</span>
+          <span class="tag">⏱ ~год</span>
+          <span class="tag type-anon">🔒 Анонимно</span>
+        </div>
+      </div>
+      <div class="case-peak-metric">
+        <div class="case-peak-num">4–6%</div>
+        <div class="case-peak-label">ROAS будни</div>
+      </div>
+      <div class="case-toggle">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="case-body">
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">ROAS будни (до)</div>
+          <div class="metric-value" style="color:var(--rose)">2–3%</div>
+          <div class="metric-sub">нестабильный</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">ROAS будни (после)</div>
+          <div class="metric-value green">4–6%</div>
+          <div class="metric-sub">стабильно</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Охват</div>
+          <div class="metric-value blue">15</div>
+          <div class="metric-sub">городов Польши</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Язык рекламы</div>
+          <div class="metric-value gold">PL</div>
+          <div class="metric-sub">Польский</div>
+        </div>
+      </div>
+      <div class="case-blocks">
+        <div class="block">
+          <div class="block-title">Ключевое решение: ремаркетинг</div>
+          <ul>
+            <li>До перестройки: ROAS в будни 2–3% — постоянно скакал</li>
+            <li>После: стабилизировали ROAS до 4–6% в будние дни</li>
+            <li>Ровный и предсказуемый результат на протяжении всего месяца, не только в выходные</li>
+            <li>Грамотная работа с ремаркетингом = стабилизация всего проекта</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Сезонность и пики</div>
+          <ul>
+            <li>Пятница–воскресенье — основные пики заказов</li>
+            <li>Чёрная пятница — специальная акция с бустом бюджета</li>
+            <li>Новый год — сезонный пик</li>
+            <li>Постоянный продукт — люди едят всегда, нет мёртвых сезонов</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Форматы и стратегия</div>
+          <ul>
+            <li>Лучшие форматы: UGC + моушн-видео</li>
+            <li>Параллельный трафик на Instagram как дополнительный канал продаж</li>
+            <li>Воронка: реклама → сайт → онлайн-заказ</li>
+            <li>Польская аудитория — реклама на польском языке</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Системный подход</div>
+          <ul>
+            <li>Без волшебных фишек — системная работа по поиску лучших связок</li>
+            <li>E-commerce метрики: ROAS как основной KPI</li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-images">
+        <div class="images-label">Материалы</div>
+        <div class="images-grid">
+          <img src="доставка_суши_польша-_проджект/Снимок экрана 2026-01-21 в 22.23.40.png" alt="Скриншот 1" onclick="openLightbox(this.src)">
+          <img src="доставка_суши_польша-_проджект/Снимок экрана 2026-01-21 в 22.24.04.png" alt="Скриншот 2" onclick="openLightbox(this.src)">
+          <img src="доставка_суши_польша-_проджект/Снимок экрана 2026-01-21 в 22.24.41.png" alt="Скриншот 3" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────── CASE 10 ─── -->
+  <div class="case" id="case10">
+    <div class="case-header" onclick="toggleCase(this)">
+      <div class="case-header-left">
+        <div class="case-num">10 / PROJECT MANAGER</div>
+        <div class="case-title">Theavenueneon — Неоновые вывески, Польша</div>
+        <div class="case-tags">
+          <span class="tag type-pm">📋 Project Manager (BLAMMO)</span>
+          <span class="tag">📍 Польша</span>
+          <span class="tag">⏱ 14+ месяцев</span>
+          <span class="tag">💡 B2B</span>
+        </div>
+      </div>
+      <div class="case-peak-metric">
+        <div class="case-peak-num">×1.5–2</div>
+        <div class="case-peak-label">рост выручки</div>
+      </div>
+      <div class="case-toggle">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="case-body">
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">Рост выручки</div>
+          <div class="metric-value green">×1.5–2</div>
+          <div class="metric-sub">после прихода</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Длительность</div>
+          <div class="metric-value purple">14+ мес</div>
+          <div class="metric-sub">долгосрок</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Сегмент</div>
+          <div class="metric-value blue">B2B</div>
+          <div class="metric-sub">бизнесы для брендинга</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Язык</div>
+          <div class="metric-value gold">PL</div>
+          <div class="metric-sub">Польский</div>
+        </div>
+      </div>
+      <div class="case-blocks">
+        <div class="block">
+          <div class="block-title">Главный результат</div>
+          <ul>
+            <li>До: выручка нестабильная, без чёткого роста</li>
+            <li>После прихода: выручка выросла в 1.5–2 раза и стабильно держалась на новом уровне</li>
+            <li>Появилась возможность для масштабирования</li>
+            <li>Ограничение роста стало не реклама — а операционка (продажники, доставка)</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Стратегия</div>
+          <ul>
+            <li>Системная работа с ретаргетом — ключевое решение проекта</li>
+            <li>Лучшие форматы: разговорники с демонстрацией продукта</li>
+            <li>Фото готовых вывесок в интерьере бизнесов</li>
+            <li>B2B аудитория — бизнесы покупающие неоновые вывески для брендинга</li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-images">
+        <div class="images-label">Материалы</div>
+        <div class="images-grid">
+          <img src="Theavenueneon_неон_вывески_-_проджект/Снимок экрана 2026-01-21 в 22.26.36.png" alt="Скриншот 1" onclick="openLightbox(this.src)">
+          <img src="Theavenueneon_неон_вывески_-_проджект/Снимок экрана 2026-01-21 в 22.26.53.png" alt="Скриншот 2" onclick="openLightbox(this.src)">
+          <img src="Theavenueneon_неон_вывески_-_проджект/Снимок экрана 2026-01-21 в 22.29.23.png" alt="Скриншот 3" onclick="openLightbox(this.src)">
+          <img src="Theavenueneon_неон_вывески_-_проджект/Снимок экрана 2026-01-21 в 22.30.02.png" alt="Скриншот 4" onclick="openLightbox(this.src)">
+          <img src="Theavenueneon_неон_вывески_-_проджект/Снимок экрана 2026-01-21 в 22.30.54.png" alt="Скриншот 5" onclick="openLightbox(this.src)">
+          <img src="Theavenueneon_неон_вывески_-_проджект/Снимок экрана 2026-01-21 в 22.31.15.png" alt="Скриншот 6" onclick="openLightbox(this.src)">
+          <img src="Theavenueneon_неон_вывески_-_проджект/Снимок экрана 2026-01-21 в 22.31.27.png" alt="Скриншот 7" onclick="openLightbox(this.src)">
+          <img src="Theavenueneon_неон_вывески_-_проджект/Снимок экрана 2026-06-08 в 00.36.52.png" alt="Скриншот 8" onclick="openLightbox(this.src)">
+          <img src="Theavenueneon_неон_вывески_-_проджект/Снимок экрана 2026-06-08 в 00.37.07.png" alt="Скриншот 9" onclick="openLightbox(this.src)">
+          <img src="Theavenueneon_неон_вывески_-_проджект/Снимок экрана 2026-06-08 в 00.37.24.png" alt="Скриншот 10" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+      <a class="case-link" href="https://www.instagram.com/theavenueneon" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @theavenueneon
+      </a>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────── CASE 11 ─── -->
+  <div class="case" id="case11">
+    <div class="case-header" onclick="toggleCase(this)">
+      <div class="case-header-left">
+        <div class="case-num">11 / PROJECT MANAGER</div>
+        <div class="case-title">Denis Drive — Автошкола, 4 города Польши</div>
+        <div class="case-tags">
+          <span class="tag type-pm">📋 Project Manager (BLAMMO)</span>
+          <span class="tag">📍 4 города Польши</span>
+          <span class="tag">🚗 Автошкола</span>
+          <span class="tag">🇷🇺🇺🇦 RU + UA</span>
+        </div>
+      </div>
+      <div class="case-peak-metric">
+        <div class="case-peak-num">4 города</div>
+        <div class="case-peak-label">одновременно</div>
+      </div>
+      <div class="case-toggle">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="case-body">
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">Охват</div>
+          <div class="metric-value blue">4 города</div>
+          <div class="metric-sub">Польши</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">ЦА</div>
+          <div class="metric-value gold">Русскоязычные</div>
+          <div class="metric-sub">украинцы и русские</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Языки рекламы</div>
+          <div class="metric-value purple">RU + UA</div>
+          <div class="metric-sub">два языка параллельно</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Продукты</div>
+          <div class="metric-value green">2</div>
+          <div class="metric-sub">курс с нуля + практика</div>
+        </div>
+      </div>
+      <div class="case-blocks">
+        <div class="block">
+          <div class="block-title">Что продавали</div>
+          <ul>
+            <li>Курсы вождения с нуля для русскоязычных в Польше</li>
+            <li>Отдельный продукт: практика вождения для тех у кого уже есть права</li>
+            <li>ЦА: русскоязычные — украинцы и русские, переехавшие в Польшу</li>
+            <li>Реклама на русском + украинском языках</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Главная сложность</div>
+          <ul>
+            <li>Польская бюрократия — много документов для записи в автошколу</li>
+            <li>Длинный путь от заявки до оплаты из-за юридических требований</li>
+            <li>Воронка строилась с прогревом, не на моментальную покупку</li>
+            <li>Системная аналитика по 2 направлениям трафика параллельно</li>
+          </ul>
+        </div>
+        <div class="block">
+          <div class="block-title">Лучшие форматы</div>
+          <ul>
+            <li>Закадровая озвучка — работала стабильно</li>
+            <li>Разговорники с собственником — высокое доверие аудитории</li>
+            <li>Трафик на узнаваемость + трафик на услуги — параллельно</li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-images">
+        <div class="images-label">Материалы</div>
+        <div class="images-grid">
+          <img src="денис_драйв_-_проджект/Снимок экрана 2026-01-21 в 22.32.50.png" alt="Скриншот 1" onclick="openLightbox(this.src)">
+          <img src="денис_драйв_-_проджект/Снимок экрана 2026-01-21 в 22.33.34.png" alt="Скриншот 2" onclick="openLightbox(this.src)">
+          <img src="денис_драйв_-_проджект/Снимок экрана 2026-01-21 в 22.33.51.png" alt="Скриншот 3" onclick="openLightbox(this.src)">
+          <img src="денис_драйв_-_проджект/Снимок экрана 2026-06-08 в 00.38.02.png" alt="Скриншот 4" onclick="openLightbox(this.src)">
+          <img src="денис_драйв_-_проджект/Снимок экрана 2026-06-08 в 00.38.15 (1).png" alt="Скриншот 5" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+      <a class="case-link" href="https://www.instagram.com/denisdrive_school" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @denisdrive_school
+      </a>
+    </div>
+  </div>
+
+</div><!-- /cases-grid -->
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p style="color:var(--muted)">Таргетолог · Project Manager · Meta Ads · 2022–2026</p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <div class="lightbox-close" onclick="closeLightbox()">✕</div>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  function toggleCase(header) {
+    const cas = header.closest('.case');
+    cas.classList.toggle('open');
+  }
+
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+
+</body>
+</html>
