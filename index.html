@@ -426,13 +426,60 @@
     margin: 32px 0;
   }
 
+  /* ─── CAROUSEL ─── */
+  .carousel-wrap { position: relative; }
+  .carousel-btn {
+    display: none;
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    z-index: 2;
+    background: rgba(124,92,191,0.7);
+    border: none; border-radius: 50%;
+    width: 32px; height: 32px;
+    color: #fff; font-size: 16px;
+    cursor: pointer; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .carousel-btn:hover { background: rgba(124,92,191,1); }
+  .carousel-btn.prev { left: 4px; }
+  .carousel-btn.next { right: 4px; }
+
   /* responsive */
   @media (max-width: 768px) {
-    .case-header { flex-direction: column; gap: 16px; padding: 24px; }
-    .case-body { padding: 0 24px 32px; }
+    /* Hero компактнее */
+    .hero { min-height: auto; padding: 48px 20px 36px; }
+    .hero-tag { font-size: 12px; padding: 5px 14px; margin-bottom: 18px; }
+    .hero h1 { font-size: 36px; margin-bottom: 12px; }
+    .hero-sub { font-size: 15px; margin-bottom: 28px; }
+    .hero-stats { gap: 0; display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 32px; }
+    .hero-stat { padding: 12px 8px; }
+    .hero-stat-num { font-size: 26px; }
+
+    /* Case */
+    .case-header { flex-direction: column; gap: 16px; padding: 20px; }
+    .case-body { padding: 0 20px 28px; }
     .case-peak-metric { text-align: left; }
     .metrics-row { grid-template-columns: repeat(2, 1fr); }
-    .hero-stats { gap: 24px; }
+
+    /* Галерея — горизонтальный скролл */
+    .images-grid {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 10px;
+      padding-bottom: 8px;
+    }
+    .images-grid::-webkit-scrollbar { height: 3px; }
+    .images-grid::-webkit-scrollbar-thumb { background: rgba(124,92,191,0.4); border-radius: 4px; }
+    .images-grid img {
+      flex: 0 0 75vw;
+      max-width: 75vw;
+      height: 200px;
+      scroll-snap-align: start;
+    }
+    .carousel-btn { display: flex; }
   }
 </style>
 </head>
@@ -546,7 +593,6 @@
         <div class="block">
           <div class="block-title">Стратегия</div>
           <ul>
-            <li>Глубокий анализ ЦА перед запуском — не запускали пока не поняли продукт</li>
             <li>Большое кол-во тестов: статика + видео + разговорники с экспертом</li>
             <li>Лучшие аудитории: широкая + нестандартные интересы + LAL</li>
             <li>Масштабирование с предельной ценой за результат — цена лида оставалась стабильной даже при росте бюджета до $1–2К в сутки</li>
@@ -722,7 +768,7 @@
             <li>Под каждый из 3 вебинаров — отдельные смыслы и визуал</li>
             <li>Оптимизация по выручке, а не по цене лида</li>
             <li>За первую неделю нашли рабочие связки и начали масштабировать</li>
-            <li>Аудитории: KZ 25+ женщины, широкая + по интересам AVWB</li>
+            <li>Аудитории: KZ 25+ женщины, широкая + интересы</li>
           </ul>
         </div>
         <div class="block">
@@ -1209,7 +1255,7 @@
             <li>Регистрация на марафон → квалификация (форма-опросник)</li>
             <li>Прогрев к покупке VIP-билета → цепочка контента в WhatsApp</li>
             <li>Мероприятие → открытие продаж</li>
-            <li>10 касаний в 3 каналах параллельно — «весь интернет говорит об этом»</li>
+            <li>10 касаний в 3 каналах параллельно</li>
           </ul>
         </div>
         <div class="block">
@@ -1236,16 +1282,6 @@
             <li>Видео от эксперта по нашим сценариям</li>
             <li>Статика для ретаргета</li>
           </ul>
-        </div>
-      </div>
-      <div class="case-images">
-        <div class="images-label">Материалы</div>
-        <div class="images-grid">
-          <img src="мои кейсы/Трафик зарубеж запуски афнан- проджект/Снимок экрана 2026-06-14 в 21.33.41.png" alt="Скриншот 1" onclick="openLightbox(this.src)">
-          <img src="мои кейсы/Трафик зарубеж запуски афнан- проджект/Снимок экрана 2026-06-14 в 21.34.46.png" alt="Скриншот 2" onclick="openLightbox(this.src)">
-          <img src="мои кейсы/Трафик зарубеж запуски афнан- проджект/Снимок экрана 2026-06-14 в 21.38.41.png" alt="Скриншот 3" onclick="openLightbox(this.src)">
-          <img src="мои кейсы/Трафик зарубеж запуски афнан- проджект/Снимок экрана 2026-06-14 в 21.41.04.png" alt="Скриншот 4" onclick="openLightbox(this.src)">
-          <img src="мои кейсы/Трафик зарубеж запуски афнан- проджект/Снимок экрана 2026-06-14 в 21.42.40.png" alt="Скриншот 5" onclick="openLightbox(this.src)">
         </div>
       </div>
       <a class="case-link" href="https://www.instagram.com/theafnankhalifa" target="_blank">
@@ -1553,6 +1589,32 @@
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeLightbox();
+  });
+
+  // ─── CAROUSEL ARROWS ───
+  document.querySelectorAll('.images-grid').forEach(grid => {
+    const wrap = document.createElement('div');
+    wrap.className = 'carousel-wrap';
+    grid.parentNode.insertBefore(wrap, grid);
+    wrap.appendChild(grid);
+
+    const prev = document.createElement('button');
+    prev.className = 'carousel-btn prev';
+    prev.innerHTML = '&#8249;';
+    prev.setAttribute('aria-label', 'Назад');
+
+    const next = document.createElement('button');
+    next.className = 'carousel-btn next';
+    next.innerHTML = '&#8250;';
+    next.setAttribute('aria-label', 'Вперёд');
+
+    wrap.appendChild(prev);
+    wrap.appendChild(next);
+
+    const scrollBy = () => grid.querySelector('img') ? grid.querySelector('img').offsetWidth + 10 : 200;
+
+    prev.addEventListener('click', () => grid.scrollBy({ left: -scrollBy(), behavior: 'smooth' }));
+    next.addEventListener('click', () => grid.scrollBy({ left: scrollBy(), behavior: 'smooth' }));
   });
 </script>
 
